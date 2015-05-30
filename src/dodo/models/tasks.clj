@@ -7,15 +7,18 @@
          :subname "db/database.db"})
 
 (j/insert! db :tasks
-             {:id "234"
-              :tasker_id "23434"
+             {:id "23434567"
+              :tasker_id "434"
               :doer_id "56456"
-              :title "pozvonite"
+              :title "uberite"
               :description "i vernite"
-              :updated_at "23-05-2015"
-              :created_at "22-05-2015"
-              :cat_id "2"})
+              :updated_at "25-05-2015"
+              :created_at "21-05-2015"
+              :cat_id "1"})
 
 (defn all [] (j/query db (s/select * :tasks)))
 
-(all)
+(defn tasker [id] (j/query db (s/select * :tasks (s/where {:tasker_id id}))))
+
+;(all)
+;(tasker 434)
