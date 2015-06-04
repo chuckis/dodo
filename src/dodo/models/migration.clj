@@ -8,7 +8,7 @@
 (defn create-tasks []
   (try (sql/with-connection db
          (sql/create-table :tasks
-          [:id :serial "PRIMARY KEY"]
+          [:id :integer "NOT NULL"]
           [:tasker_id :integer "NOT NULL"]
           [:doer_id :integer]
           [:title :varchar "NOT NULL"]
@@ -24,4 +24,4 @@
   (create-tasks)
   (println "Done ..."))
 
-;(-main)
+(-main)

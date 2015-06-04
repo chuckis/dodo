@@ -4,11 +4,14 @@
             [ring.util.response :as response]
             [compojure.route :as route]
             [compojure.handler :as handler]
-            [net.cgrand.enlive-html :as html]))
+            [net.cgrand.enlive-html :as html]
+            [dodo.models.tasks :as tasks]))
+
+                                        ;layouts===============
 
 (def nav-items
   {"Home" "/"
-   "Все задания" "/all_tasks"
+   "Все задания" "/alltasks"
    "исполнители" "/bunch"})
 
 (html/defsnippet header "templates/header.html"
@@ -27,12 +30,24 @@
   [:head :title] (html/content "DOLOTO")
   [:body] (html/do-> (html/append (header path))))
 
+                                        ;TODO надо разобраться с энлив а то никак чото пока...
+
+(html/deftemplate all-tasks-page "templates/alltasks.html"
+  [tasksall]
+  [:head :title] (html/content "DOLOTO")
+  ([:li] (html/clone-for [task tasksall] (html/content task))))
+
 (defn index-page
   [request]
   (main-template {:path (:uri request)}))
 
+(defn all-tasks
+  [request]
+  (all-tasks-page tasks/all))
+
 (defroutes main-routes
   (GET "/" request (index-page request))
+  (GET "/alltasks" request (all-tasks request))
   (route/not-found "ups, page not found"))
 
 (def app
