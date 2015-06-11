@@ -9,7 +9,8 @@
 (def nav-items
   {"Home" "/"
    "Все задания" "/all_tasks"
-   "исполнители" "/bunch"})
+   "исполнители" "/bunch"
+   "testpage" "/testpage"})
 
 (html/defsnippet header "templates/header.html"
   [:body :div.navbar]
@@ -27,12 +28,25 @@
   [:head :title] (html/content "DOLOTO")
   [:body] (html/do-> (html/append (header path))))
 
+                                        ;testpage template i vse ee ===================================
+(html/deftemplate test-template "templates/test-page.html"
+  [cont]
+  [:head :title] (html/content "DOLOTO")
+  [:h1] (html/content cont))
+
+(defn test-page
+  [request]
+  (test-template {:message "hello test-page!"}))
+                                        ;==========================================================================
+
+
 (defn index-page
   [request]
   (main-template {:path (:uri request)}))
 
 (defroutes main-routes
   (GET "/" request (index-page request))
+  (GET "/test-page" request (test-page request))
   (route/not-found "ups, page not found"))
 
 (def app
